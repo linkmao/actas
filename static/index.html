@@ -1,0 +1,134 @@
+<title>Actas de Convivencia</title>
+<link rel="stylesheet" href="/styles.css">
+
+<header class="app-header">
+  <div>
+    <h1>Sistematización de Actas de Convivencia</h1>
+    <p>Institución Educativa Luis Carlos Galán Sarmiento</p>
+  </div>
+</header>
+<nav class="tabs">
+  <button class="tab-btn active" data-view="nueva">Nueva acta</button>
+  <button class="tab-btn" data-view="historial">Historial</button>
+  <button class="tab-btn" data-view="config">Configuración</button>
+</nav>
+
+<main>
+  <section id="view-nueva" class="view active">
+
+    <div class="card">
+      <h2>1. Datos generales</h2>
+      <div class="grid-4">
+        <div class="field"><label>Fecha</label><input type="text" id="f-fecha" placeholder="ej. 5 de septiembre de 2026"></div>
+        <div class="field"><label>Hora inicial</label><input type="time" id="f-hora-inicio"></div>
+        <div class="field"><label>Hora final</label><input type="time" id="f-hora-fin"></div>
+        <div class="field"><label>Elaborada por</label><input type="text" id="f-elaborada-por" placeholder="Nombre del coordinador"></div>
+      </div>
+      <div class="field" style="max-width:300px"><label>Lugar</label><input type="text" id="f-lugar" value="Coordinación"></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Personas que intervienen</h2>
+      <table class="editable" id="tabla-personas">
+        <thead><tr><th style="width:30%">Nombre</th><th style="width:20%">Tipo</th><th style="width:35%">Cargo / Rol (ej. Estudiante 902)</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <button class="btn secondary small" id="btn-add-persona">+ Agregar persona</button>
+    </div>
+
+    <div class="card">
+      <h2>3. Descripción breve de la situación</h2>
+      <div class="field">
+        <textarea id="f-descripcion" placeholder="Describe brevemente qué pasó, con tus palabras. La IA la ampliará y la tipificará según el Acuerdo de Convivencia."></textarea>
+      </div>
+      <div class="actions-bar">
+        <button class="btn" id="btn-analizar">Analizar con IA</button>
+        <span class="hint">Los nombres se anonimizan antes de enviarse al modelo de IA; solo se reinsertan localmente en tu equipo.</span>
+      </div>
+      <div id="analizar-status"></div>
+    </div>
+
+    <div class="card review-hidden" id="card-revision">
+      <h2>4. Revisión de la IA (edítalo antes de generar el acta)</h2>
+
+      <h3>Tipificación</h3>
+      <div class="grid-3">
+        <div class="field">
+          <label>Tipo de situación</label>
+          <select id="r-tipo">
+            <option value="I">Tipo I</option>
+            <option value="II">Tipo II</option>
+            <option value="III">Tipo III</option>
+          </select>
+        </div>
+        <div class="field"><label>Artículo</label><input type="text" id="r-articulo" placeholder="14.1"></div>
+        <div class="field"><label>Conducta específica</label><input type="text" id="r-conducta"></div>
+      </div>
+      <div class="field"><label>Justificación</label><textarea id="r-justificacion"></textarea></div>
+
+      <h3>Antecedentes y descripción de la situación (para el acta)</h3>
+      <div class="field"><textarea id="r-narrativa" style="min-height:140px"></textarea></div>
+
+      <h3>Acciones propuestas</h3>
+      <table class="editable" id="tabla-acciones">
+        <thead><tr>
+          <th style="width:38%">Descripción</th>
+          <th style="width:16%">Categoría</th>
+          <th style="width:12%">Artículo</th>
+          <th style="width:24%">Responsable</th>
+          <th></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <button class="btn secondary small" id="btn-add-accion">+ Agregar acción</button>
+
+      <h3 style="margin-top:16px">Acuerdos (texto para el acta)</h3>
+      <div class="field"><textarea id="r-acuerdos"></textarea></div>
+
+      <h3>Próxima reunión (opcional)</h3>
+      <div class="grid-3">
+        <div class="field"><label>Fecha</label><input type="text" id="pr-fecha" placeholder="ej. 20 de septiembre de 2026"></div>
+        <div class="field"><label>Hora</label><input type="text" id="pr-hora"></div>
+        <div class="field"><label>Lugar</label><input type="text" id="pr-lugar"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="actions-bar">
+        <button class="btn secondary" id="btn-guardar-borrador">Guardar borrador</button>
+        <button class="btn" id="btn-generar-word">Generar documento Word</button>
+      </div>
+      <div id="guardar-status"></div>
+    </div>
+  </section>
+
+  <section id="view-historial" class="view">
+    <div class="card">
+      <h2>Historial de actas</h2>
+      <div class="search-bar">
+        <input type="text" id="h-buscar" placeholder="Buscar por nombre, número de acta o fecha...">
+        <button class="btn secondary" id="btn-buscar">Buscar</button>
+      </div>
+      <table class="historial">
+        <thead><tr>
+          <th>No.</th><th>Fecha</th><th>Personas</th><th>Tipo</th><th>Estado</th><th></th>
+        </tr></thead>
+        <tbody id="historial-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="view-config" class="view">
+    <div class="card">
+      <h2>Configuración del modelo de inteligencia artificial</h2>
+      <p class="hint">
+        Elige con qué proveedor de IA quieres analizar y redactar las actas, y guarda tu propia API key.
+        La clave se guarda únicamente en este computador (base de datos local); nunca se comparte ni se
+        muestra completa una vez guardada.
+      </p>
+      <div id="config-lista"></div>
+    </div>
+  </section>
+</main>
+
+<script src="/app.js"></script>

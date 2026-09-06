@@ -1,0 +1,152 @@
+{
+  "institucion": "Institución Educativa Luis Carlos Galán Sarmiento (Itagüí)",
+  "documento": "Acuerdo de Convivencia (Manual) - Código D-GCFP-01, Versión 2, 07/02/2025",
+  "debido_proceso": {
+    "articulo_6": {
+      "titulo": "Acciones Pedagógicas",
+      "texto": "Las acciones pedagógicas están orientadas a guiar y corregir comportamientos de manera formativa, en un tiempo y espacio determinado, enmarcadas en el diálogo igualitario. Buscan enseñar y reforzar conocimientos, habilidades, destrezas y competencias, especialmente en el ámbito ciudadano, generando conciencia en el estudiante sobre su conducta."
+    },
+    "articulo_7": {
+      "titulo": "Del debido proceso",
+      "texto": "En toda acción pedagógica o correctiva aplicada a un estudiante que presente situaciones que afecten la convivencia, se deberá garantizar el debido proceso. Los estudiantes solo podrán ser objeto de acciones pedagógicas y/o correctivas en caso de infracción, reincidencia o violación de las normas establecidas en el Acuerdo de Convivencia. Nota: las faltas que hayan sido objeto de acciones pedagógicas restaurativas y hayan sido superadas no podrán ser consideradas acumulativas."
+    },
+    "articulo_8": {
+      "titulo": "Conducto Regular y Derecho a la Defensa",
+      "conducto_regular": ["Estudiante", "Docente", "Orientador de grupo", "Encuentro dialógico para la prevención y resolución de conflictos", "Coordinador de convivencia", "Comité Escolar de Convivencia", "Rectoría", "Consejo Directivo"],
+      "derecho_defensa": [
+        "Presunción de inocencia hasta que se demuestre lo contrario.",
+        "Ser informado claramente sobre la falta que se le imputa.",
+        "Ser escuchado durante el proceso de aplicación de la acción pedagógica o correctiva.",
+        "Presentar pruebas a su favor y controvertir las pruebas en su contra.",
+        "Ser acompañado por sus padres, acudientes, el personero estudiantil o el representante de grupo en sus descargos.",
+        "Interponer recursos legales conforme a sus derechos (reposición: 3 días hábiles; apelación ante Consejo Directivo: 3 días hábiles).",
+        "Recibir una sanción proporcional a la falta cometida."
+      ]
+    },
+    "articulo_9": {
+      "titulo": "Prohibición de sanciones crueles, humillantes o degradantes",
+      "texto": "Los directivos y docentes no podrán imponer sanciones que impliquen maltrato físico o psicológico, ni adoptar medidas que afecten la dignidad del estudiante. Queda prohibida la inclusión de sanciones degradantes bajo cualquier modalidad."
+    }
+  },
+  "tipificacion": {
+    "articulo_14_intro": "Se consideran situaciones que afectan la convivencia aquellos actos que alteran el normal desarrollo y curso de la vida institucional, vulneren la integridad o los derechos de las personas o atenten contra bienes públicos y colectivos. Se tipifican en Tipo I, Tipo II y Tipo III según naturaleza, efectos, modalidades y circunstancias de los hechos, los motivos determinantes y los antecedentes personales del estudiante.",
+    "tipo_I": {
+      "articulo": "14.1",
+      "definicion": "Conflictos manejados inadecuadamente y situaciones esporádicas que afectan el clima escolar, pero que NO generan daño al cuerpo o a la salud.",
+      "conductas": [
+        "Actuar de manera inapropiada en eventos institucionales o comunitarios (plenarias, actos cívicos, presentaciones, conciertos, conferencias, actividades deportivas o culturales), perturbando el clima escolar.",
+        "No respetar los horarios establecidos para asistir a la institución, clases y actividades programadas.",
+        "Consumir alimentos en clase o durante actos comunitarios, perturbando el ambiente de aprendizaje.",
+        "Usar dispositivos electrónicos u objetos distractores sin autorización del docente durante clases o actividades.",
+        "No entregar oportunamente documentos requeridos (circulares firmadas por los padres, entre otros).",
+        "No participar en actividades académicas e institucionales programadas sin justificación.",
+        "No cumplir con las acciones pedagógicas asignadas por docentes o directivos.",
+        "Manipular de manera irrespetuosa los objetos personales de los compañeros (esconder o jugar con sus pertenencias), siempre que no genere intimidación o angustia.",
+        "Usar lenguaje inapropiado en la comunicación dentro del entorno escolar.",
+        "Realizar burlas, apodos o gestos que afecten la dignidad de los miembros de la comunidad educativa, cuando son hechos esporádicos y sin intención de intimidación persistente.",
+        "Arrojar basura en lugares no asignados o dañar recursos naturales e institucionales (plantas, animales, agua, energía).",
+        "Desacatar las normas específicas de cada área o dependencia de la institución.",
+        "Comercializar productos dentro de la institución sin autorización.",
+        "Portar material pornográfico en la institución (sin intención de intimidar a un compañero).",
+        "Salir de la institución durante la jornada escolar sin autorización.",
+        "Suministrar información incorrecta a docentes y directivos.",
+        "Hacer fraude en pruebas, exámenes, trabajos o cualquier actividad académica evaluativa.",
+        "Participar en apuestas de dinero y/o juegos de azar dentro de la institución."
+      ],
+      "nota_reincidencia": "Varias de estas conductas escalan a Tipo II si son sistemáticas, reiteradas o generan intimidación/daño psicológico (p. ej. burlas o manipulación de pertenencias que se vuelven persistentes).",
+      "procedimiento_14_1_1": [
+        "1) Diálogo igualitario.",
+        "2) Encuentro Dialógico para la Prevención y Resolución de Conflictos (asamblea de grupo semanal); se levanta acta de compromisos si hay lugar.",
+        "3) Descripción de la situación en el formato de acta institucional (cuando el estudiante incumple reiteradamente los compromisos del Encuentro Dialógico), a cargo del docente orientador de grupo.",
+        "4) Citación a padres de familia y/o acudientes (orientador de grupo con aval de coordinación), registrada en acta con descripción, acciones pedagógicas aplicadas y compromisos.",
+        "5) Elaboración de compromiso pedagógico integral (citación por coordinación) si hay reincidencia tras la citación a padres; puede remitirse a orientación escolar.",
+        "6) Remisión del caso al Comité Escolar de Convivencia si persiste incumplimiento del compromiso pedagógico integral."
+      ]
+    },
+    "tipo_II": {
+      "articulo": "14.2",
+      "definicion": "Agresión escolar, acoso escolar (bullying) y ciberacoso (ciberbullying), siempre que: (1) no sean consideradas delito, (2) sean repetidas o sistemáticas, (3) generen daño físico o psicológico sin causar incapacidad.",
+      "conductas": [
+        "Burlas, apodos, muecas o gestos obscenos que intimiden, cuando son sistemáticos y generan intimidación o violencia psicológica.",
+        "Bromas de mal gusto que atenten contra la dignidad de las personas (sistemáticas).",
+        "Exclusión social intencional y reiterada de un estudiante.",
+        "Amenazas verbales o escritas reiteradas contra un miembro de la comunidad educativa.",
+        "Difusión de rumores falsos con la intención de perjudicar a un estudiante.",
+        "Imposición de tareas humillantes o degradantes a un compañero.",
+        "Ciberacoso: publicación de imágenes/videos/audios humillantes en redes sociales, creación de perfiles falsos para acosar, envío de mensajes amenazantes por redes/plataformas digitales, difusión de información privada sin autorización.",
+        "Agresión física sin incapacidad: empujones, golpes suaves, pellizcos o contacto físico con intención de intimidar; retención o destrucción de objetos personales con intención de intimidación.",
+        "Daño intencionado a bienes o materiales de forma reiterativa: dañar útiles o trabajos de compañeros para perjudicarlos académicamente; apropiarse de útiles/objetos sin consentimiento; actos contra bienes de la institución o de un miembro de la comunidad."
+      ],
+      "procedimiento_14_2_1": [
+        "1) Intervenir la situación (docente/directivo docente); si hay daño a la salud, garantizar atención inmediata en salud física y mental, con remisión a entidades competentes, dejando constancia.",
+        "2) Diálogo formativo con todas las partes involucradas para esclarecer los hechos y buscar reparación de daños cuando se requiera.",
+        "3) Descripción de la situación en el formato de acta institucional, con fecha y acción pedagógica, compromiso del estudiante y firmas.",
+        "4) Citación a padres de familia y/o acudientes y elaboración de Compromiso Pedagógico Integral, determinando acciones restaurativas que busquen la reparación de los daños y el restablecimiento de derechos; remisión a orientación escolar si se requiere.",
+        "5) Traslado al Comité Escolar de Convivencia (Art. 43 numeral 7): informe a rectoría, apertura de carpeta confidencial, citación a víctima(s), ofensor(es) y acudientes, seguimiento de acciones restaurativas y decisión de nuevas acciones pedagógicas correctivas (que podrán ser retributivas)."
+      ]
+    },
+    "tipo_III": {
+      "articulo": "14.3",
+      "definicion": "Agresiones escolares que constituyen presuntos delitos según la legislación penal colombiana vigente (Ley 599 de 2000 y demás normatividad penal).",
+      "conductas": [
+        "Distribuir, vender, exhibir, poseer o producir material pornográfico, incluyendo pornografía infantil (Arts. 218 y 219 Código Penal).",
+        "Porte, consumo o inducción al consumo de alcohol o drogas en la institución (Art. 382 Código Penal; Ley 1098 de 2006).",
+        "Actos de vandalismo o tentativa de vandalismo (daño en bien ajeno, Art. 265 Código Penal).",
+        "Acoso sexual mediante tocamientos o comportamientos de connotación sexual (Art. 210-A Código Penal).",
+        "Amenazas (Art. 347), lesiones personales (Arts. 111-116), violencia intrafamiliar (Art. 229), constreñimiento ilegal (Art. 182) contra la dignidad, honra o integridad física.",
+        "Falsificación de firmas, suplantación o alteración de documentos académicos/administrativos (Arts. 287, 288, 296 Código Penal).",
+        "Apropiación de pertenencias sin consentimiento: hurto agravado (Art. 240), hurto simple (Art. 239), abuso de confianza (Art. 249).",
+        "Porte de arma o elemento que pueda causar lesión física (Arts. 365 y 366 Código Penal).",
+        "Inducir, obligar o presionar a realizar actos lesivos para sí mismo o para otros: inducción al suicidio (Art. 107), constreñimiento o uso de menores para delitos (Arts. 182 y 188-C)."
+      ],
+      "procedimiento_14_3_1": [
+        "1) Intervenir la situación, garantizando atención inmediata en salud física y mental si hay daño al cuerpo, con remisión a entidades competentes.",
+        "2) Notificación inmediata a padres de familia y/o acudientes por el orientador de grupo, informando a coordinación; se registra en acta con descripción, acciones de urgencia, activación de la Ruta de Atención Integral (RAI) y compromisos provisionales.",
+        "3) Traslado al Comité Escolar de Convivencia: informe de coordinación a rectoría, quien pone la situación en conocimiento de la autoridad competente (Policía Nacional, ICBF/Comisaría de Familia si hay daño al cuerpo) dejando constancia; el Comité decide medidas de protección y acciones correctivas (que podrán ser retributivas), determinando acciones restaurativas orientadas a la reparación de daños y restablecimiento de derechos."
+      ]
+    }
+  },
+  "acciones": {
+    "articulo_17_intro": "Las acciones pedagógicas consensuadas, restaurativas o retributivas aplicadas deben obedecer a los principios de proporcionalidad y diálogo igualitario, y respetar la prohibición de sanciones crueles, humillantes o degradantes (Art. 9).",
+    "consensuales": {
+      "articulo": "17.1",
+      "aplica_preferentemente_a": "Situaciones Tipo I y como primer paso en Tipo II.",
+      "catalogo": [
+        "a) Participación activa en el Encuentro Dialógico para la Prevención y Resolución de Conflictos.",
+        "b) Apoyar a la institución en actividades de prevención y promoción (carteleras, mensajes, folletos, entre otros).",
+        "c) Elaborar material para fortalecer la Convivencia y Paz, la Participación y Responsabilidad Democrática, y la Pluralidad, Identidad y Valoración de las Diferencias.",
+        "d) Mediación: un tercero (representante de grupo, personero estudiantil, maestro o directivo docente) facilita el diálogo entre las partes.",
+        "e) Acuerdos: las partes negocian el conflicto con apoyo de un tercero que puede proponer fórmulas de conciliación.",
+        "f) Participación voluntaria de los padres o acudientes en actividades de formación y acompañamiento, sin que implique una medida sancionatoria obligatoria."
+      ]
+    },
+    "restaurativas": {
+      "articulo": "17.2",
+      "aplica_preferentemente_a": "Cualquier situación, especialmente cuando hay víctima y ofensor; buscan reparación del daño sin estigmatización. Base del Tipo II y del componente restaurativo del Tipo III.",
+      "catalogo": [
+        "a) Participación activa en el Encuentro Dialógico, ofreciendo disculpas en privado o público y demostrando actitud de cambio.",
+        "b) Reparación o reivindicación de la situación: acuerdos voluntarios de reparación de daños/perjuicios materiales con la familia; labores colaborativas que mejoren la convivencia; inclusión en proyectos institucionales.",
+        "c) Presentación de trabajos reflexivos sobre la situación e inclusión en programas pedagógicos institucionales.",
+        "Cumplimiento de compromisos adquiridos en el ámbito familiar, incluida la gestión de remisiones a entidades internas y/o externas.",
+        "Uso adecuado de medicación prescrita para estudiantes que requieran apoyos específicos, con acompañamiento pertinente, sin condicionar el derecho a la educación.",
+        "Participación voluntaria de los acudientes en procesos de apoyo escolar, sin que se interprete como sanción disciplinaria."
+      ]
+    },
+    "retributivas": {
+      "articulo": "17.3",
+      "aplica_preferentemente_a": "Incumplimientos graves y reiterados, únicamente cuando se hayan agotado sin éxito los mecanismos pedagógicos y restaurativos. Requieren debido proceso pleno.",
+      "catalogo": [
+        "a) Plan Pedagógico alterno en la institución o en casa, garantizando la continuidad del derecho a la educación.",
+        "b) Restricción de participación en eventos institucionales extracurriculares.",
+        "c) Ubicación en un espacio pedagógico alternativo dentro de la institución mientras se aclara la situación (no puede impedirse el acceso a clases sin debido proceso).",
+        "d) No renovación de matrícula (solo tras agotar estrategias pedagógicas y restaurativas; decide Consejo Directivo con base en informes del Comité Escolar de Convivencia; garantizando debido proceso).",
+        "e) Cancelación de matrícula (situaciones excepcionales, solo tras agotar todas las medidas previas; decide Consejo Directivo; requiere resolución rectoral motivada)."
+      ]
+    }
+  },
+  "notas_generales": [
+    "Toda acción pedagógica, restaurativa o retributiva debe registrarse en el formato de acta institucional con fecha, descripción de la situación, acción aplicada, compromisos y firmas.",
+    "El estudiante siempre tiene derecho a ser escuchado y a presentar descargos antes de que se apliquen acciones correctivas.",
+    "Las situaciones Tipo II y III activan además la Ruta de Atención Integral (RAI) y, según gravedad, el traslado al Comité Escolar de Convivencia."
+  ]
+}
