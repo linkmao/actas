@@ -117,6 +117,17 @@ button.btn:hover { background: var(--azul-osc); }
 button.btn.secondary { background: #fff; color: var(--azul); border: 1px solid var(--azul); }
 button.btn.secondary:hover { background: #eef4f8; }
 button.btn.danger { background: #fff; color: var(--rojo); border: 1px solid var(--rojo); padding: 4px 8px; }
+button.btn-icono {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 4px 6px;
+  border-radius: 5px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+button.btn-icono:hover { background: #fbe4e4; }
 button.btn.small { padding: 4px 10px; font-size: 12px; }
 button.btn:disabled { opacity: .5; cursor: not-allowed; }
 button.link { background: none; border: none; color: var(--azul); cursor: pointer; padding: 0; font-size: 12px; text-decoration: underline; }
@@ -162,3 +173,18 @@ table.historial tr:hover { background: #f8fafb; }
 .key-preview { font-size: 12px; color: #667; margin-top: 4px; }
 .tag-configurado { background: #e4f1e6; color: var(--verde); padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 .tag-sin-configurar { background: #eef2f5; color: #667; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+
+pre.code-block {
+  background: #f4f6f8;
+  border: 1px solid var(--gris-borde);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 340px;
+  overflow-y: auto;
+  margin: 0 0 18px;
+}

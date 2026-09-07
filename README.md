@@ -55,8 +55,10 @@ Abre el navegador en **http://localhost:8000**.
 
 ## 3. Uso
 
-1. **Nueva acta**: completa fecha/hora/lugar, agrega las personas que intervienen (estudiante,
-   acudiente, docente, directivo...) y escribe una descripción breve de la situación.
+1. **Nueva acta**: el número de acta se autocompleta de forma consecutiva (editable si necesitas
+   uno distinto), al igual que "Elaborada por" y la primera persona (quedan con los datos del
+   coordinador por defecto). Completa fecha/hora/lugar, agrega las demás personas que intervienen
+   (estudiante, acudiente, docente, directivo...) y escribe una descripción breve de la situación.
 2. **Analizar con IA**: la app ampliará la descripción, propondrá la tipificación (Tipo I/II/III
    con el artículo correspondiente) y una lista de acciones restaurativas/pedagógicas.
    - Los nombres reales de las personas **nunca se envían** al servicio de IA: se reemplazan por
@@ -64,8 +66,11 @@ Abre el navegador en **http://localhost:8000**.
      localmente en tu computador al recibir la respuesta.
 3. **Revisa y edita** todo lo propuesto por la IA — el acta hace parte del debido proceso
    disciplinario, así que la redacción final es siempre responsabilidad del coordinador.
-4. **Generar documento Word**: crea el archivo `.docx` con el mismo formato del acta de ejemplo
-   y lo descarga automáticamente.
+4. **Generar documento Word**: crea el archivo `.docx` con el mismo formato del acta de ejemplo y
+   lo descarga automáticamente; el nombre del archivo sigue el patrón
+   `NúmeroActa-dd.mm.aaaa NombreEstudiante Grado.docx` (ej. `3-20.02.2026 Jorge Cordoba 901.docx`;
+   si no hay un estudiante registrado, usa `Sin Estudiante`). Después de generarlo, el formulario
+   queda listo para la siguiente acta con el número consecutivo ya actualizado.
 5. **Historial**: consulta, reabre o vuelve a descargar actas ya creadas (se guardan localmente
    en `data/actas.db`, un archivo SQLite en este mismo computador).
 6. **Configuración**: cambia de proveedor de IA (Anthropic/OpenAI/Google), actualiza la API key o el
@@ -92,3 +97,17 @@ Los datos de las actas (nombres, descripciones, decisiones) y la API key configu
 **solo en este computador** (SQLite local + archivos .docx locales). Únicamente el texto anonimizado
 de la descripción breve y los roles de las personas se envían al proveedor de IA que hayas configurado,
 para generar la redacción sugerida.
+
+## Versionado
+
+1.5.0:
+- Campo de coordinador con el nombre por dofecto
+- Conteo consecutivo de numero de acta y la pososibilidad de editarlo
+- Nombre del archivo de word con el formato que uso (numero de acta, fecha y nombre del estudinate)
+- Se crea seccion "avanzado" que permite ver el prompt que se envia, y la respuesta que se recibe de la IA
+- Se corrige la falta del am y pm en la hora en el word
+- Se tiene en el campo de los nombres doble espacio (para firmas faciles)
+
+
+1.0.0 
+Aplicacion web que permite la sistematizacion de las actas de convivencia escolar, las cuales su redaccion se reaaliza con el llamado a una API de IA

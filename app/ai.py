@@ -309,11 +309,21 @@ def analizar_situacion(personas: list[dict], descripcion_breve: str) -> dict:
         raise AIError(f"Error llamando a la API de {PROVIDERS[provider]['label']}: {exc}") from exc
 
     raw_text = (raw_text or "").strip()
-    raw_text = re.sub(r"^```(json)?|```$", "", raw_text, flags=re.MULTILINE).strip()
+    raw_text_limpio = re.sub(r"^```(json)?|```$", "", raw_text, flags=re.MULTILINE).strip()
 
     try:
-        parsed = json.loads(raw_text)
+        parsed = json.loads(raw_text_limpio)
     except json.JSONDecodeError as exc:
         raise AIError(f"La IA no devolvió un JSON válido: {exc}\n\nRespuesta recibida:\n{raw_text}") from exc
 
-    return _deanonymize(parsed, token_map)
+    resultado = _deanonymize(parsed, token_map)
+    # Información de depuración para la sección "Avanzado": se guarda tal como se envió/recibió
+    # (con los tokens anonimizados, nunca con nombres reales), no se pasa por _deanonymize.
+    resultado["_debug"] = {
+        "proveedor": PROVIDERS[provider]["label"],
+        "modelo": model,
+        "prompt_sistema": SYSTEM_PROMPT,
+        "prompt_usuario": user_content,
+        "respuesta_cruda": raw_text,
+    }
+    return resultado

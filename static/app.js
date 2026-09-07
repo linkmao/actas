@@ -2,6 +2,7 @@ const state = {
   actaId: null,
   personas: [],
   acciones: [],
+  ultimoDebug: null,
 };
 
 function fechaHoyEsp() {
@@ -9,6 +10,17 @@ function fechaHoyEsp() {
   return hoy.toLocaleDateString("es-CO", {day: "numeric", month: "long", year: "numeric"});
 }
 document.getElementById("f-fecha").value = fechaHoyEsp();
+
+async function cargarSiguienteNumeroActa() {
+  try {
+    const resp = await fetch("/api/actas/siguiente-numero");
+    const data = await resp.json();
+    document.getElementById("f-numero-acta").value = data.numero;
+  } catch (err) {
+    // si falla, el usuario puede escribir el número manualmente
+  }
+}
+cargarSiguienteNumeroActa();
 
 // ---------- Navegación entre pestañas ----------
 document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -19,6 +31,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.getElementById(`view-${btn.dataset.view}`).classList.add("active");
     if (btn.dataset.view === "historial") cargarHistorial();
     if (btn.dataset.view === "config") cargarConfig();
+    if (btn.dataset.view === "avanzado") renderAvanzado();
   });
 });
 
@@ -64,6 +77,7 @@ function leerPersonas() {
 }
 
 // filas iniciales
+agregarPersona({nombre: "Mauricio Rúa Flórez", tipo: "directivo", rol_cargo: "Coordinador"});
 agregarPersona({tipo: "estudiante"});
 agregarPersona({tipo: "acudiente"});
 
@@ -122,6 +136,8 @@ document.getElementById("btn-analizar").addEventListener("click", async () => {
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || "Error desconocido");
 
+    state.ultimoDebug = data._debug || null;
+
     document.getElementById("card-revision").classList.remove("review-hidden");
     document.getElementById("r-tipo").value = (data.tipificacion && data.tipificacion.tipo) || "I";
     document.getElementById("r-articulo").value = (data.tipificacion && data.tipificacion.articulo) || "";
@@ -133,7 +149,7 @@ document.getElementById("btn-analizar").addEventListener("click", async () => {
     document.querySelector("#tabla-acciones tbody").innerHTML = "";
     (data.acciones_propuestas || []).forEach(agregarAccion);
 
-    setStatus("analizar-status", "Listo. Revisa y ajusta lo que consideres antes de generar el acta.", "ok");
+    setStatus("analizar-status", "Listo. Revisa y ajusta lo que consideres antes de generar el acta. (En la pestaña \"Avanzado\" puedes ver el prompt enviado y la respuesta cruda de la IA.)", "ok");
   } catch (err) {
     setStatus("analizar-status", err.message, "error");
   } finally {
@@ -143,8 +159,9 @@ document.getElementById("btn-analizar").addEventListener("click", async () => {
 
 // ---------- Guardar / Generar ----------
 function construirPayload(estado) {
+  const numeroActaTexto = document.getElementById("f-numero-acta").value;
   return {
-    numero_acta: state.numeroActa || null,
+    numero_acta: numeroActaTexto ? parseInt(numeroActaTexto, 10) : null,
     fecha: document.getElementById("f-fecha").value,
     hora_inicio: document.getElementById("f-hora-inicio").value,
     hora_fin: document.getElementById("f-hora-fin").value,
@@ -184,6 +201,7 @@ async function guardarActa(estado) {
   if (!resp.ok) throw new Error(data.detail || "No se pudo guardar el acta.");
   state.actaId = data.id;
   state.numeroActa = data.numero_acta;
+  document.getElementById("f-numero-acta").value = data.numero_acta;
   return data;
 }
 
@@ -203,12 +221,45 @@ document.getElementById("btn-generar-word").addEventListener("click", async () =
     const resp = await fetch(`/api/actas/${acta.id}/generar-docx`, {method: "POST"});
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || "No se pudo generar el documento.");
-    setStatus("guardar-status", `Documento generado (Acta No. ${acta.numero_acta}). Descargando...`, "ok");
     window.open(data.url, "_blank");
+    await resetFormularioNuevaActa();
+    setStatus("guardar-status", `Documento generado (Acta No. ${acta.numero_acta}). El formulario quedó listo para la siguiente acta.`, "ok");
   } catch (err) {
     setStatus("guardar-status", err.message, "error");
   }
 });
+
+async function resetFormularioNuevaActa() {
+  state.actaId = null;
+  state.numeroActa = null;
+
+  document.getElementById("f-fecha").value = fechaHoyEsp();
+  document.getElementById("f-hora-inicio").value = "";
+  document.getElementById("f-hora-fin").value = "";
+  document.getElementById("f-lugar").value = "Coordinación";
+  document.getElementById("f-elaborada-por").value = "Mauricio Rúa Flórez";
+  document.getElementById("f-descripcion").value = "";
+
+  document.querySelector("#tabla-personas tbody").innerHTML = "";
+  agregarPersona({nombre: "Mauricio Rúa Flórez", tipo: "directivo", rol_cargo: "Coordinador"});
+  agregarPersona({tipo: "estudiante"});
+  agregarPersona({tipo: "acudiente"});
+
+  document.getElementById("card-revision").classList.add("review-hidden");
+  document.getElementById("r-tipo").value = "I";
+  document.getElementById("r-articulo").value = "";
+  document.getElementById("r-conducta").value = "";
+  document.getElementById("r-justificacion").value = "";
+  document.getElementById("r-narrativa").value = "";
+  document.getElementById("r-acuerdos").value = "";
+  document.querySelector("#tabla-acciones tbody").innerHTML = "";
+  document.getElementById("pr-fecha").value = "";
+  document.getElementById("pr-hora").value = "";
+  document.getElementById("pr-lugar").value = "";
+  setStatus("analizar-status", "", "");
+
+  await cargarSiguienteNumeroActa();
+}
 
 // ---------- Historial ----------
 async function cargarHistorial() {
@@ -234,10 +285,28 @@ async function cargarHistorial() {
       <td>
         <button class="btn secondary small btn-abrir">Abrir</button>
         ${acta.archivo_path ? `<a class="btn small" style="text-decoration:none;display:inline-block;margin-left:6px" href="/api/actas/${acta.id}/descargar">Descargar</a>` : ""}
+        <button class="btn-icono btn-eliminar-acta" title="Eliminar acta">🗑️</button>
       </td>`;
     tr.querySelector(".btn-abrir").addEventListener("click", () => abrirActa(acta.id));
+    tr.querySelector(".btn-eliminar-acta").addEventListener("click", () => eliminarActa(acta.id, acta.numero_acta));
     tbody.appendChild(tr);
   }
+}
+
+async function eliminarActa(id, numeroActa) {
+  if (!confirm(`¿Eliminar el Acta No. ${numeroActa} del historial? Esta acción no se puede deshacer (no borra el archivo .docx ya descargado, solo el registro).`)) {
+    return;
+  }
+  const resp = await fetch(`/api/actas/${id}`, {method: "DELETE"});
+  if (!resp.ok) {
+    const data = await resp.json().catch(() => ({}));
+    alert(data.detail || "No se pudo eliminar el acta.");
+    return;
+  }
+  if (state.actaId === id) {
+    await resetFormularioNuevaActa();
+  }
+  cargarHistorial();
 }
 
 document.getElementById("btn-buscar").addEventListener("click", cargarHistorial);
@@ -248,6 +317,7 @@ async function abrirActa(id) {
   state.actaId = acta.id;
   state.numeroActa = acta.numero_acta;
 
+  document.getElementById("f-numero-acta").value = acta.numero_acta || "";
   document.getElementById("f-fecha").value = acta.fecha || "";
   document.getElementById("f-hora-inicio").value = acta.hora_inicio || "";
   document.getElementById("f-hora-fin").value = acta.hora_fin || "";
@@ -373,4 +443,22 @@ function renderConfig(data) {
       });
     }
   });
+}
+
+// ---------- Avanzado: prompt y respuesta cruda de la IA ----------
+function renderAvanzado() {
+  const vacio = document.getElementById("avanzado-vacio");
+  const contenido = document.getElementById("avanzado-contenido");
+  if (!state.ultimoDebug) {
+    vacio.hidden = false;
+    contenido.hidden = true;
+    return;
+  }
+  vacio.hidden = true;
+  contenido.hidden = false;
+  document.getElementById("av-proveedor").value = state.ultimoDebug.proveedor || "";
+  document.getElementById("av-modelo").value = state.ultimoDebug.modelo || "";
+  document.getElementById("av-sistema").textContent = state.ultimoDebug.prompt_sistema || "";
+  document.getElementById("av-usuario").textContent = state.ultimoDebug.prompt_usuario || "";
+  document.getElementById("av-respuesta").textContent = state.ultimoDebug.respuesta_cruda || "";
 }

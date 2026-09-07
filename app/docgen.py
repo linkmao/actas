@@ -24,11 +24,75 @@ Tabla 1 (cuerpo):
   fila 17: "Próxima reunión: " | "HORA: " | "LUGAR: " (se completa agregando texto tras la etiqueta)
 """
 import copy
+import re
 from pathlib import Path
 
 from docx import Document
 
 TEMPLATE_PATH = Path(__file__).resolve().parent / "templates_docx" / "acta_template.docx"
+
+MESES = {
+    "enero": "01", "febrero": "02", "marzo": "03", "abril": "04", "mayo": "05", "junio": "06",
+    "julio": "07", "agosto": "08", "septiembre": "09", "setiembre": "09", "octubre": "10",
+    "noviembre": "11", "diciembre": "12",
+}
+
+CARACTERES_INVALIDOS_ARCHIVO = re.compile(r'[<>:"/\\|?*]')
+
+
+def _formatear_hora(hora: str) -> str:
+    """Convierte una hora en formato 24h ('08:00', de <input type=time>) a 12h con am/pm/m,
+    replicando la convención del acta de ejemplo ('11:00 am', '12:00 m' para el mediodía)."""
+    if not hora:
+        return ""
+    m = re.match(r"^(\d{1,2}):(\d{2})", hora.strip())
+    if not m:
+        return hora
+    h, minuto = int(m.group(1)), m.group(2)
+    if h == 12 and minuto == "00":
+        return "12:00 m"
+    sufijo = "am" if h < 12 else "pm"
+    h12 = h % 12
+    if h12 == 0:
+        h12 = 12
+    return f"{h12}:{minuto} {sufijo}"
+
+
+def _fecha_para_archivo(fecha_texto: str) -> str:
+    """Convierte una fecha en texto ('5 de septiembre de 2026' o '05/09/2026') al formato
+    dd.mm.aaaa usado en el nombre de archivo."""
+    fecha_texto = (fecha_texto or "").strip()
+    m = re.search(r"(\d{1,2})\s+de\s+([a-zA-Záéíóúñ]+)\s+de\s+(\d{4})", fecha_texto, re.IGNORECASE)
+    if m:
+        dia, mes_txt, anio = m.groups()
+        mes = MESES.get(mes_txt.lower(), "00")
+        return f"{int(dia):02d}.{mes}.{anio}"
+    m = re.search(r"(\d{1,2})[/-](\d{1,2})[/-](\d{4})", fecha_texto)
+    if m:
+        dia, mes, anio = m.groups()
+        return f"{int(dia):02d}.{int(mes):02d}.{anio}"
+    return fecha_texto.replace(" ", "_") or "sin-fecha"
+
+
+def construir_nombre_archivo(acta: dict) -> str:
+    """Nombre de archivo: '{numero}-{dd.mm.aaaa} {Nombre del estudiante} {grado}.docx'.
+    Si no hay un estudiante con nombre, usa 'Sin Estudiante' en su lugar."""
+    fecha_str = _fecha_para_archivo(acta.get("fecha", ""))
+    estudiante = next(
+        (p for p in acta.get("personas", [])
+         if (p.get("tipo") or "").lower() == "estudiante" and (p.get("nombre") or "").strip()),
+        None,
+    )
+    if estudiante:
+        nombre = estudiante["nombre"].strip()
+        grado_match = re.search(r"(\d+)", estudiante.get("rol_cargo", "") or "")
+        grado = grado_match.group(1) if grado_match else ""
+        parte_estudiante = f"{nombre} {grado}".strip()
+    else:
+        parte_estudiante = "Sin Estudiante"
+
+    nombre_archivo = f"{acta.get('numero_acta', '')}-{fecha_str} {parte_estudiante}.docx"
+    return CARACTERES_INVALIDOS_ARCHIVO.sub("", nombre_archivo)
 
 
 def _unique_cells(row):
@@ -38,6 +102,11 @@ def _unique_cells(row):
         if not seen or seen[-1]._tc is not cell._tc:
             seen.append(cell)
     return seen
+
+
+def _set_espaciado_doble(cell):
+    for p in cell.paragraphs:
+        p.paragraph_format.line_spacing = 2.0
 
 
 def _set_cell_text(cell, text: str):
@@ -88,6 +157,12 @@ def _set_paragraph_multiline(paragraph, text: str):
                 run.font.name = template_run.font.name
 
 
+def _eliminar_parrafo(paragraph):
+    """Elimina un párrafo completo del documento (a diferencia de solo vaciar su texto)."""
+    p = paragraph._p
+    p.getparent().remove(p)
+
+
 def _clone_row_after(table, row_index: int):
     """Clona la fila en `row_index` y la inserta justo después. Devuelve la nueva fila (docx Row)."""
     src_tr = table.rows[row_index]._tr
@@ -124,8 +199,8 @@ def generar_acta_docx(acta: dict, output_path: Path) -> Path:
 
     row3 = _unique_cells(t0.rows[3])
     _set_cell_text(row3[0], acta.get("fecha", ""))
-    _set_cell_text(row3[1], acta.get("hora_inicio", "") or "")
-    _set_cell_text(row3[2], acta.get("hora_fin", "") or "")
+    _set_cell_text(row3[1], _formatear_hora(acta.get("hora_inicio", "")))
+    _set_cell_text(row3[2], _formatear_hora(acta.get("hora_fin", "")))
     _set_cell_text(row3[3], acta.get("elaborada_por", "") or "")
 
     # --- Tabla 1: asistencia ---
@@ -156,6 +231,8 @@ def generar_acta_docx(acta: dict, output_path: Path) -> Path:
             _set_cell_text(celdas[0], "")
             _set_cell_text(celdas[1], "")
             _set_cell_text(celdas[2], "")
+        for celda in celdas:
+            _set_espaciado_doble(celda)
 
     # --- Tabla 1: desarrollo (Antecedentes y Acuerdos) ---
     fila_desarrollo = _find_row_index(t1, "DESARROLLO") + 1
@@ -174,15 +251,17 @@ def generar_acta_docx(acta: dict, output_path: Path) -> Path:
     narrativa = acta.get("narrativa_antecedentes") or ""
     if idx_antecedentes + 2 < len(paragraphs):
         _set_paragraph_multiline(paragraphs[idx_antecedentes + 2], narrativa)
-    for j in range(idx_antecedentes + 4, idx_acuerdos, 2):
-        if j < len(paragraphs):
-            _set_paragraph_multiline(paragraphs[j], "")
+    # Deja un único párrafo en blanco (dos saltos de línea) entre el contenido y "Acuerdos";
+    # el resto de párrafos de relleno de la plantilla de ejemplo se eliminan por completo.
+    for j in range(idx_antecedentes + 4, idx_acuerdos):
+        _eliminar_parrafo(paragraphs[j])
 
     acuerdos = acta.get("acuerdos_texto") or ""
     if idx_acuerdos + 2 < len(paragraphs):
         _set_paragraph_multiline(paragraphs[idx_acuerdos + 2], acuerdos)
-    for j in range(idx_acuerdos + 4, len(paragraphs), 2):
-        _set_paragraph_multiline(paragraphs[j], "")
+    # Igual al final: deja como mucho un único párrafo en blanco tras los acuerdos.
+    for j in range(idx_acuerdos + 4, len(paragraphs)):
+        _eliminar_parrafo(paragraphs[j])
 
     # --- Tabla 1: acciones (Descripción / Responsable(s)) ---
     fila_titulo_desc = _find_row_index(t1, "DESCRIPCI")

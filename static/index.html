@@ -11,6 +11,7 @@
   <button class="tab-btn active" data-view="nueva">Nueva acta</button>
   <button class="tab-btn" data-view="historial">Historial</button>
   <button class="tab-btn" data-view="config">Configuración</button>
+  <button class="tab-btn" data-view="avanzado">Avanzado</button>
 </nav>
 
 <main>
@@ -19,12 +20,15 @@
     <div class="card">
       <h2>1. Datos generales</h2>
       <div class="grid-4">
+        <div class="field"><label>Número de acta</label><input type="number" id="f-numero-acta" min="1"></div>
         <div class="field"><label>Fecha</label><input type="text" id="f-fecha" placeholder="ej. 5 de septiembre de 2026"></div>
         <div class="field"><label>Hora inicial</label><input type="time" id="f-hora-inicio"></div>
         <div class="field"><label>Hora final</label><input type="time" id="f-hora-fin"></div>
-        <div class="field"><label>Elaborada por</label><input type="text" id="f-elaborada-por" placeholder="Nombre del coordinador"></div>
       </div>
-      <div class="field" style="max-width:300px"><label>Lugar</label><input type="text" id="f-lugar" value="Coordinación"></div>
+      <div class="grid-2" style="max-width:620px">
+        <div class="field"><label>Elaborada por</label><input type="text" id="f-elaborada-por" placeholder="Nombre del coordinador" value="Mauricio Rúa Flórez"></div>
+        <div class="field"><label>Lugar</label><input type="text" id="f-lugar" value="Coordinación"></div>
+      </div>
     </div>
 
     <div class="card">
@@ -127,6 +131,31 @@
         muestra completa una vez guardada.
       </p>
       <div id="config-lista"></div>
+    </div>
+  </section>
+
+  <section id="view-avanzado" class="view">
+    <div class="card">
+      <h2>Avanzado — solicitud y respuesta de la IA</h2>
+      <p class="hint">
+        Aquí puedes ver exactamente lo que la app envía al proveedor de IA (con los nombres ya
+        anonimizados, nunca los reales) y la respuesta cruda que devuelve, tal como llegó, antes
+        de reinsertar los nombres reales. Se actualiza cada vez que usas "Analizar con IA" en la
+        pestaña "Nueva acta".
+      </p>
+      <div id="avanzado-vacio" class="hint">Aún no se ha hecho ninguna consulta a la IA en esta sesión.</div>
+      <div id="avanzado-contenido" hidden>
+        <div class="grid-2" style="margin-bottom:14px">
+          <div class="field"><label>Proveedor</label><input type="text" id="av-proveedor" readonly></div>
+          <div class="field"><label>Modelo</label><input type="text" id="av-modelo" readonly></div>
+        </div>
+        <h3>1. Instrucciones del sistema (system prompt)</h3>
+        <pre class="code-block" id="av-sistema"></pre>
+        <h3>2. Mensaje enviado (personas anonimizadas + descripción + Acuerdo de Convivencia)</h3>
+        <pre class="code-block" id="av-usuario"></pre>
+        <h3>3. Respuesta cruda de la IA</h3>
+        <pre class="code-block" id="av-respuesta"></pre>
+      </div>
     </div>
   </section>
 </main>

@@ -127,6 +127,11 @@ def get_acta(conn, acta_id: int):
     return _row_to_dict(row) if row else None
 
 
+def delete_acta(conn, acta_id: int):
+    conn.execute("DELETE FROM actas WHERE id = ?", (acta_id,))
+    conn.commit()
+
+
 def list_actas(conn, search: str | None = None):
     if search:
         like = f"%{search}%"

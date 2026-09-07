@@ -12,7 +12,7 @@ load_dotenv()
 
 from . import ai, db
 from .ai import analizar_situacion, AIError
-from .docgen import generar_acta_docx
+from .docgen import construir_nombre_archivo, generar_acta_docx
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "output"
@@ -107,6 +107,15 @@ def borrar_config(provider: str):
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
+@app.get("/api/actas/siguiente-numero")
+def siguiente_numero_acta():
+    conn = db.get_connection()
+    try:
+        return {"numero": db.next_numero_acta(conn)}
+    finally:
+        conn.close()
+
+
 @app.get("/api/actas")
 def listar_actas(q: str | None = None):
     conn = db.get_connection()
@@ -126,6 +135,18 @@ def obtener_acta(acta_id: int):
     if not acta:
         raise HTTPException(status_code=404, detail="Acta no encontrada")
     return acta
+
+
+@app.delete("/api/actas/{acta_id}")
+def eliminar_acta(acta_id: int):
+    conn = db.get_connection()
+    try:
+        if not db.get_acta(conn, acta_id):
+            raise HTTPException(status_code=404, detail="Acta no encontrada")
+        db.delete_acta(conn, acta_id)
+        return {"ok": True}
+    finally:
+        conn.close()
 
 
 @app.post("/api/actas")
@@ -158,8 +179,7 @@ def generar_docx(acta_id: int):
         acta = db.get_acta(conn, acta_id)
         if not acta:
             raise HTTPException(status_code=404, detail="Acta no encontrada")
-        fecha_archivo = (acta.get("fecha") or "").replace(" ", "_").replace("/", "-")
-        nombre_archivo = f"Acta_{acta['numero_acta']}_{fecha_archivo}.docx"
+        nombre_archivo = construir_nombre_archivo(acta)
         output_path = OUTPUT_DIR / nombre_archivo
         generar_acta_docx(acta, output_path)
         db.update_acta(conn, acta_id, {"archivo_path": str(output_path), "estado": "final"})
